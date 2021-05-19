@@ -1,0 +1,44 @@
+<h3> {{tittle}}</h3>
+
+<!--Importante, para hacer ng-if de esta forma abajo deben usarse los ng-template -->
+<div *ngIf="parametro; then Mostrarparametros; else MostrarnoParametro"> </div>
+
+<ng-template #Mostrarparametros>
+    <p>Parámetro de la url : {{parametro}}</p>
+
+</ng-template>
+
+
+<ng-template #MostrarnoParametro>
+    <!--Invocando un método que nos va a redireccionar a otro sitio:-->
+    <button (click)="redirigir()">Redirigir Página con parámetro</button>
+
+    <button (click)="redirigir2()">Ir a Home</button>
+</ng-template>
+
+<br/>
+<hr/>
+
+<div *ngIf="datosRecibidos">
+    <h2>Estos datos fueron enviados desde su componente hijo, y aquí los estamos recibiendo</h2>
+    <ul>
+        <li>{{datosRecibidos.nombre}}</li>
+        <li>{{datosRecibidos.web}}</li>
+        <li>{{datosRecibidos.twitter}}</li>
+    </ul>
+
+</div>
+
+<br/>
+<br/>
+
+<hr/>
+<h3>Propiedades INPUT en Angular:</h3>
+
+<!--Podemos enviar parámetros a un componente hijo mediante las siguiente etiquetas, esto no permite enviar
+    Cualquier tipo de información al componente hijo donde posteriormente lo recibiremos,
+    [propiedad1] : Estamos enviando una cadena de texto cualquiera al componente.
+    [persona] : Estamos enviando una propiedad directamente desde el módulo padre contacto.component.ts
+-->
+<componente-hijo [propiedad1]="'Soy una propiedad inventada'" [texto1]="'Soy una propiedad enviada desde el componente padre'" [persona]="dato_externo" (desde_el_hijo)="recibirDatos($event)">
+</componente-hijo>

@@ -1,0 +1,23 @@
+<mat-card *ngFor="let image of photos">
+    <mat-card-subtitle>
+        {{image.title}}
+    </mat-card-subtitle>
+
+    <img [src]="image.thumbnailUrl" alt="">
+
+    <mat-card-content>
+        <p>Album Id: {{image.albumId}}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <a mat-raised-button [href]="image.url" target="_blank">
+        Show Image
+      </a>
+
+        <button mat-flat-button color="primary">
+          Click
+        </button>
+    </mat-card-actions>
+
+
+</mat-card>

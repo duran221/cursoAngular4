@@ -1,0 +1,55 @@
+<h2> {{tittle}} </h2>
+
+<br>
+
+<input type="text" [(ngModel)]="prendaGuardar">
+<button (click)="guardarRopa()">Agregar</button>
+
+<br/>
+<span *ngIf="prendaGuardar">La prenda a guardar es: <strong>{{prendaGuardar}}</strong></span>
+
+
+<h3>Listado de ropa: </h3>
+
+<ul>
+    <li *ngFor="let prenda of coleccionRopa; index as i">
+        {{i}} : {{prenda}} &nbsp; &nbsp;
+        <input type="button" value="Eliminar" (click)="eliminarPrenda(i)">
+
+    </li>
+</ul>
+
+
+<h4> Trabajando con Pipes (Tuberías)</h4>
+
+<!--Esta fecha no tiene ningún tipo de formateo, por tanto va a imprimir la fecha completa-->
+{{fecha}}
+
+<!--Para definir una Pipe, lo hacemos mediante el signo con palito '|' por ejemplo aquí estamos indicando
+    Que la fecha a procesar va a tener Día de la semana, Día, Mes , Año:
+-->
+<p> {{fecha | date:'fullDate' | uppercase}}</p>
+
+<!--También podemos personalizar el formato, por ejemplo aquí estamo indicando un formato que imprime 21/02/21-->
+<p> {{fecha | date:'dd/MM/yy'}}</p>
+
+<!--Hay varias opciones de formatos de fecha disponibles para mirar, para más info, consultar doc. online-->
+<p> {{fecha | date:'short'}}</p>
+
+<p> {{fecha | date:'shortTime'}}</p>
+
+<h3>Pipe para convertir texto:</h3>
+
+<!--También podemos usar pipes para convertir texto, se pueden anidar pipes separando por el simbolo '|'-->
+<p>Convirtiendo a mayúsculas : {{nombreConvertir | uppercase}}</p>
+
+<p>Convirtiendo a minúsculas : {{nombreConvertir | lowercase}}</p>
+
+
+<h3>Usando una Pipe Personalizada:</h3>
+
+<!--Estamos usando la pipe que hemos creado, el primer parámetro es el número 5 , el segundo parámetro
+    Sería el 6
+-->
+
+<p> {{5 | conversor : 6}}</p>

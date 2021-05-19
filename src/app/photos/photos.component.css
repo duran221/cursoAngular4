@@ -1,0 +1,24 @@
+main {
+    width: 100%;
+    margin-top: 2rem;
+    /*Este text align centra además la imagen como por arte de magia*/
+    text-align: center;
+}
+
+mat-card,
+app-paint-photos {
+    margin: auto;
+    width: 60%;
+    display: block;
+    margin-top: 2rem;
+}
+
+.button-send {
+    display: block;
+    width: 100%;
+}
+
+mat-form-field,
+input {
+    width: 100%;
+}

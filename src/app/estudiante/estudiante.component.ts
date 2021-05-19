@@ -1,0 +1,24 @@
+import { Component, OnInit } from '@angular/core';
+
+
+@Component({
+  selector: 'app-estudiante',
+  templateUrl: './estudiante.component.html',
+  styleUrls: ['./estudiante.component.css']
+})
+export class EstudianteComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  numeros(): Array<number> {
+    let arreglo =  Array(4);
+    arreglo.push(1);
+    arreglo.push(2);
+    arreglo.push(3);
+    return arreglo;
+  }
+
+}

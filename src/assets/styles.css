@@ -1,0 +1,22 @@
+.fondoAzul {
+    background-color: cadetblue;
+    text-align: center;
+    color: #fff;
+}
+
+.fondoVerde {
+    background-color: lightgreen;
+    text-align: center;
+    color: #fff;
+}
+
+.fondoNegro {
+    background-color: #000;
+    text-align: center;
+    color: #fff;
+}
+
+.letraGrande {
+    font-size: x-large;
+    font-family: 'Times New Roman', Times, serif;
+}

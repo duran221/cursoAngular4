@@ -1,0 +1,263 @@
+<h1 style="color: blue;">
+    {{titulo}}
+
+</h1>
+
+<h3>Datos del empleado</h3>
+<ul>
+    <li>{{empleado.nombre}}
+    </li>
+
+    <li>{{empleado.edad}}
+    </li>
+
+    <li>{{empleado.getContrasena()}}</li>
+</ul>
+
+<!--La directiva *ngif permite simular el comportamiento de un condicional, es decir un if
+    Por ejemplo aquí le estoy diciendo a el div que se el valor es true, el div sea mostrado, de lo contrario
+    El div permanecerá oculto.
+-->
+<div *ngIf="trabajadorExterno==true">
+
+    <!--Esta directiva permite disparar un evento de tipo click, a ese evento podemos asociarle funciones
+        Como en este caso, en el cual se cambia el valor de una variable en la lógica, como el framework
+        Es reactivo, el cambio se refleja inmediatamente en el modelo y la interfaz.
+    -->
+    <button (click)="cambiarTrabajador(false);">Cambiar</button>
+
+    <h3>Datos del empleado 2:</h3>
+    <ul>
+        <li>{{empleado2.nombre}}
+        </li>
+
+        <li>{{empleado2.edad}}
+        </li>
+
+        <li>{{empleado2.cargo}}</li>
+
+        <li>{{empleado.getContrasena()}}</li>
+    </ul>
+
+</div>
+
+
+
+<div *ngIf="trabajadorExterno==false">
+
+    <button (click)="cambiarTrabajador(true);">Cambiar</button>
+
+    <!--Obteniendo de manera sencilla los datos de un array de Objetos:-->
+    <h3>Datos del empleado Array:</h3>
+    <ul>
+        <li>{{trabajadores[1].nombre}}
+        </li>
+
+        <li>{{trabajadores[1].edad}}
+        </li>
+
+        <li>{{trabajadores[1].cargo}}</li>
+
+        <li>{{trabajadores[1].getContrasena()}}</li>
+
+        <!--Esta directiva es especial, y representa el 'else' de una condición, lo que hacemos es representar
+            El else mediante un template que nos permite establecer lo que se mostraria en caso contrario.
+        -->
+        <li *ngIf="trabajadores[1].edad>=18; else es_menor"> Es mayor de edad</li>
+
+        <ng-template #es_menor>
+            <li> Es menor de edad</li>
+        </ng-template>
+
+
+
+    </ul>
+
+    <!--También podemos unificar el condicional mediante el uso de un div independiente para englobar
+        El condicional, quizá de esta manera se pueda ver más clara la información de esta manera-->
+    <div *ngIf="trabajadores[3] != null; then mostrarEmpleado; else mostrarAdvertencia"></div>
+
+    <ng-template #mostrarEmpleado>
+        <div>
+            <ul>
+                <li>{{trabajadores[3].nombre}}
+                </li>
+
+                <li>{{trabajadores[3].edad}}
+                </li>
+
+                <li>{{trabajadores[3].cargo}}</li>
+
+                <li>{{trabajadores[3].getContrasena()}}</li>
+            </ul>
+        </div>
+    </ng-template>
+
+    <ng-template #mostrarAdvertencia>
+        <div>
+            <p>Empleado no encontrado</p>
+        </div>
+    </ng-template>
+
+    <!--Esta etiqueta especial permite ocultar o mostrar un elemento basados en una condición-->
+    <div [hidden]="!trabajadorExterno">
+
+        <p> Me estoy mostrando como trabajador externo</p>
+
+    </div>
+
+
+    <!--Aquí encontramos un ejemplo perfecto de un condicional else-if, aunque sería bueno evaluar si en
+        Este tipo de casos es útil usar otra directiva como el análogo del switch
+    -->
+    <ng-container *ngIf="empleado.nombre==='Tumaco'; else second">
+
+        <div>
+            <p>Bienvenido Tuma o también llamado {{empleado.nombre}}</p>
+        </div>
+
+    </ng-container>
+
+    <ng-template #second>
+
+        <ng-container *ngIf="empleado.nombre=='Cristian Duran L.'; else third">
+            <div>
+                <p>Bienvenido Cris o también llamado {{empleado.nombre}}</p>
+            </div>
+        </ng-container>
+
+    </ng-template>
+
+    <ng-template #third>
+        <div>
+            <p>Quien sabe quién será usted</p>
+        </div>
+    </ng-template>
+
+
+    <div>
+        <h3>Lista de empleados de la empresa:</h3>
+
+        <!--La directiva ngfor me permite simular el comportamiento de un for tradicional, muy útil
+            Si deseamos imprimir los valores de arrays de objetos, algunas notas:
+            -index: Permite obtener el índice del item que estamos imprimiendo.
+            -first: Indica si el elemento a manejar es el primero, hay más opciones como
+            -last, count, even, odd.
+        -->
+        <ul *ngFor="let empleado of trabajadores; index as i; first as isFirst; count as numElementos">
+            <strong>Empleado {{i+1}} de un total de {{numElementos}}</strong>
+            <li>
+                <ul>
+                    <li> {{empleado.nombre}}</li> <span *ngIf="isFirst">soy el primero</span>
+                    <li> {{empleado.edad}}</li>
+                    <li> {{empleado.getContrasena()}}</li>
+
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <hr>
+    <hr>
+
+    <h3>Trabajando con las etiquetas ngswith y ngstyle</h3>
+    <h4>Colores switch</h4>
+    <button (click)="cambiarColor('green')">Verde</button>
+    <button (click)="cambiarColor('red')">Rojo</button>
+    <button (click)="cambiarColor('blue')">Azul</button>
+    <button (click)="cambiarColor('black')">Negro</button>
+    <!--Trabaja con la directiva ngSwitch es muy simple, se declara la directiva entre CORCHETES porque es
+    de tipo Binding, y con la directiva ngSwitchCase enumeramos los casos que deseamos sean cumplidos.-->
+    <ul [ngSwitch]="color">
+
+        <!--La directiva ngStyle, es muy IMPORTANTE, puesto que permite modificar los estilos de
+            nuestra aplicación de forma dinámica, podemos agregar colores, formas y todo lo que se nos
+            pueda ocurrir basados en variables que tengamos declaradas en el typescript.
+        -->
+        <li *ngSwitchCase="'red'" [ngStyle]="{
+          'background': color,
+          'color': 'white'
+        }"> Es de color {{color}}</li>
+
+        <li *ngSwitchCase="'green'" [ngStyle]="{
+          'background': color,
+          'color': 'white'
+        }"> Es de color {{color}}</li>
+
+        <li *ngSwitchCase="'black'" [ngStyle]="{
+          'background': color,
+          'color': 'white'
+        }"> Es de color {{color}}</li>
+
+
+    </ul>
+
+
+    <hr>
+    <hr>
+
+    <h3>Selector de colores:</h3>
+    <button (click)="mostrarColor()">Mostrar Color</button>
+
+    <!--La directiva ngModel nos permite vincular una propiedad, variable o modelo que tengamos definido
+        En typescript, la ventaja de esto es que podemos aprovechar todas las ventajas de la reactividad
+        De Angular.
+    -->
+    <input type="text" [(ngModel)]="colorSeleccionado">
+
+    <!--La directiva [style] permite establecer para una propiedad Css un conjunto de valores,
+        En base a una determinada condición, como podemos ver abajo con el operador ternario:
+    -->
+    <pre [style.border]="colorSeleccionado ==='red' ? '5px solid black' : '1px dotted green'">
+      <strong>Color elegido: </strong>
+      {{colorSeleccionado}}
+    </pre>
+
+    <div [ngStyle]="{
+      'background' : colorSeleccionado,
+      'width': '200px',
+      'height': '200px',
+      'float' : 'right',
+      'margin-right': '0%'
+
+    }">
+
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <!--La directiva class como atributo nos permite cambiar dinámicamente la clase de un tag html, es tan simple
+        Como indicar la condición que debe cumplirse para que el tag cambie de clase, así de simple, por ejemplo,
+        Aquí estamos indicando que cuando el atributo colorSeleccionado cambie a 'blue' se aplique la clase
+        denominada 'fondoAzul' esto es muy útil para trabajar con frameworks como bootstrap-->
+    <div [class.fondoAzul]="colorSeleccionado=='blue'">
+        <h2>Cambiaré de color cuando algo ocurra gracias a el cambio dinámico de clases</h2>
+    </div>
+
+
+    <!--La directiva ngClass permite establecer una serie de condiciones para aplicar nuestras clases,
+        Dependiente de si se cumple una u otra condición, aplicará la respectiva clase, esto es maravilloso!!
+    -->
+    <div [ngClass]="{
+      fondoAzul : colorSeleccionado =='blue',
+      fondoVerde : colorSeleccionado =='green',
+      fondoNegro: colorSeleccionado == 'black',
+      letraGrande: 1==1
+
+    }">
+        <h2>Usando la directiva ngClass:</h2>
+    </div>
+
+
+    <!--Podemos también usar la directiva ngClass de manera estática, la utilidad de esto es poder aplicar
+        Un array que tengamos preestablecido, imagina que tienes un array definido en typescript con estos
+        estilos, pues bien, lo puedes usar aquí perfectamente
+    -->
+    <h3 [ngClass]="['fondoVerde','letraGrande']">
+        Estoy usando clases estáticas
+    </h3>
+
+
+</div>

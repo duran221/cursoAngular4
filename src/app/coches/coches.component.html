@@ -1,0 +1,126 @@
+<style>
+    form {
+        width: 200px;
+    }
+    
+    input[type="text"],
+    span {
+        display: block;
+        width: 100%;
+    }
+    
+    .contenedor {
+        float: left;
+    }
+    
+    .listado {
+        margin-left: 200px;
+    }
+</style>
+
+<h1>Componente de coches</h1>
+
+<!--Para creaar un formulario de angular primero asignamos un nombre al formulario mediante el #
+    La directiva ngSubmit establece el evento submit al cual indicamos la función que se va a disparar
+    Cuando demos clic sobre el botón submit:
+-->
+<div class="contenedor">
+
+    <!--Si detallamos con cuidado, al aplicar las validaciones anteriores y limpar los campos
+        De nuestro modelo, se generan unos mensajes de error porque los campos han sido tocados, pues bien,
+        Para eliminar este comportamiento, en el submit, luego de enviar los datos, reseteo el formulario
+        mediante 'formCoches.reset()'
+    -->
+    <form #formCoches="ngForm" (ngSubmit)="onSubmit(); formCoches.reset()">
+        <div>
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="coche.nombre" placeholder="Ingresar nombre" required>
+
+            <!--Validando que el campo nombre no sea nulo-->
+            <span *ngIf="nombre.touched && !nombre.valid ">El nombre del coche es incorrecto!!!</span>
+
+        </div>
+
+        <div>
+            <label for="nombre">Caballos</label>
+
+            <!--El nombre del input por convención debe llamarse igual a la propiedad del modelo, además
+            incluir mediante el # que es un campo ngModel, es decir que actúa sobre la propiedad de
+            un modelo, con la directiva [(ngModel)] indicamos a qué propiedad del modelo pertenece:
+        -->
+            <input type="text" name="caballos" #caballos="ngModel" [(ngModel)]="coche.caballos" placeholder="Ingresar caballos" pattern="[0-9]+" required>
+
+
+            <!--Con angular podemos hacer validaciones, el ngif pregunta si el campo que corresponde a caballos ha
+            Sido pulsado y además si lo que se ha introducido allí es valido:
+        -->
+            <span *ngIf="caballos.touched && !caballos.valid">El valor del caballaje debe ser numérico</span>
+        </div>
+
+        <div>
+            <label for="color">Color</label>
+            <input type="text" name="color" #color="ngModel" [(ngModel)]="coche.color" placeholder="Ingresar color" required pattern="[a-zA-z#]+">
+
+            <!--Estas expresiones regulares definidas con la propiedad pattern permiten establecer patrones de
+            validación, y angular se aprovecha de ello para establecer nuestros patrones de validación,
+            imagina por ejemplo una validación de una contraseña, que contenga una mayúscula, minúsculas, # etc
+        -->
+
+            <span *ngIf="color.touched && !color.valid">El color del coche no es correcto</span>
+        </div>
+
+
+        <!--La etiqueta 'disabled' me permite establecer una condición en la cual el botón de submit del
+            Formulario al que pertenece NO SE ACTIVE hasta que todos los campos del formulario hayan sido
+            diligenciados correctamente, genial!!!
+        -->
+        <input type="submit" value="Enviar" [disabled]="! formCoches.form.valid">
+    </form>
+
+</div>
+
+
+
+<div class="contenedor listado">
+    <ul>
+        <li *ngFor="let coche of coches">
+
+            {{coche.nombre}} - {{coche.caballos}} - {{coche.color}}
+
+
+        </li>
+    </ul>
+</div>
+
+
+
+<div class="contenedor">
+    <ul>
+        <li *ngFor="let post of articulos">
+
+            {{postid}} ----- {{post.title}}
+
+        </li>
+    </ul>
+</div>
+
+<hr>
+<br>
+<h3>Aquí vamos a tener un ng-template</h3>
+
+<div *ngIf="administrador; else noAdmin">
+
+    <button (click)="cambiarAdministrador(false)">Cambiar</button>
+    <strong style="background-color: yellow;">Eres el admin de la página</strong>
+
+</div>
+
+<!--El ng-template me permite almacenar la condición de el else o mejor dicho lo que se va a cargar
+    En caso de la primer condición del if no se cumpla
+-->
+<ng-template #noAdmin>
+
+    <button (click)="cambiarAdministrador(true)">Cambiar</button>
+    <strong style="background-color: red;">No Eres el admin de la página</strong>
+
+</ng-template>
